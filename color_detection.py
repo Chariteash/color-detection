@@ -3,12 +3,14 @@ import cv2
 import pandas as pd
 import numpy as np
 
+#Reading img with OpenCV 
 img = cv2.imread("sample_multicolor.jpg", cv2.IMREAD_COLOR)
 
 #Reading csv file with pandas and giving names to each column
 index=["color","color_name","hex","R","G","B"]
 csv = pd.read_csv('colors_data.csv', names=index, header=None)
 
+#declare the global vars
 clicked = False
 r=g=b=xpos=ypos=0
 
@@ -40,18 +42,19 @@ while(1):
         #cv2.rectangle(image, startpoint, endpoint, color, thickness) -1 thickness fills rectangle entirely
         cv2.rectangle(img,(20,20), (750,60), (b,g,r), -1)
 
-        #Creating text string to display ( Color name and RGB values )
+        #Creating text string to display values
         text = getColorName(r,g,b) + ' R='+ str(r) + ' G='+ str(g) + ' B='+ str(b)
 
         #cv2.putText(img,text,start,font(0-7), fontScale, color, thickness, lineType, (optional bottomLeft bool) )
         cv2.putText(img, text,(50,50),2,0.8,(255,255,255),2,cv2.LINE_AA)
-  #For very light colours we will display text in black colour
+
+        #For very light colours we will display text in black colour
         if(r+g+b>=600):
             cv2.putText(img, text,(50,50),2,0.8,(0,0,0),2,cv2.LINE_AA)
 
         clicked=False
 
-    #Break the loop when user hits 'esc' key 
+    #Break the loop when user hits 'Enter' key 
     if cv2.waitKey(20) & 0xFF ==13:
         break
 
